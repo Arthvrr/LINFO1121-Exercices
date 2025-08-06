@@ -1,5 +1,9 @@
 package sorting;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * The Olympic Games organizers need to allocate facilities for the athletes' training sessions.
  * Each team has a schedule of training sessions with a start and end time
@@ -35,6 +39,24 @@ package sorting;
  *
  */
 public class TrainingSessions {
+    public static void main(String[] args) {
+        int[][] sessions = {
+                {9, 12},//          ---
+                {3, 6}, //    ---
+                {1, 4}, //  ---
+                {2, 5}, //   ---
+                {7, 8}, //        -
+        };
+
+        int[][] sessions2 = {
+                {1, 4},   //  ---
+                {4, 10},   //    ------
+                {1, 10}    // ---------
+        };
+
+        TrainingSessions ts = new TrainingSessions();
+        int result = ts.minFacilitiesRequired(sessions2);
+    }
 
     /**
      * Determines the minimum number of facilities required to accommodate
@@ -46,11 +68,41 @@ public class TrainingSessions {
      */
     public int minFacilitiesRequired(int[][] sessions) {
         // TODO
-         return -1;
+        /*
+        créer un dictionnaire avec toutes les valeurs en clé et leur counter en valeur (O(n))
+        parcourir le dictionnaire et retourner le maximum
+         */
+        int maxi = 0; //entier que l'on va retourner
+
+        ArrayList<Integer> start = new ArrayList<>(); //on stocke chaque heure de début et de fin dans une liste respective
+        ArrayList<Integer> end = new ArrayList<>();
+
+        for (int i = 0; i < sessions.length; i++){
+            start.add(sessions[i][0]); //ajout des heures de début dans start & de fin dans end
+            end.add(sessions[i][1]);
+        }
+
+        start.sort(null); //on trie les 2 tableaux
+        end.sort(null);
+
+        System.out.println(start);
+        System.out.println(end);
+
+        int start_idx = 0;
+        int end_idx = 0;
+        int tmp = 0;
+
+        while (start_idx < start.size() && end_idx < end.size()){ //tant que start_idx & end_idx sont plus petit que la len de start & end
+            if (start.get(start_idx) < end.get(end_idx)){ //si le start à start_idx est plus petit que l'end actuel, on rajoute +1 à tmp
+                tmp++;
+                start_idx++; //on avance dans les heures de start
+                maxi = Math.max(tmp,maxi); //on met à jour maxi si tmp l'a dépassé
+            } else { //si le start à start_idx est plus grand que l'end actuel, on passe à un nouvel end
+                tmp--; //on décrémente de 1 le nombre de sessions, une session à été fermée
+                end_idx++;
+            }
+        }
+        System.out.println(maxi);
+        return maxi;
     }
-
-
-
-
-
 }
