@@ -1,8 +1,9 @@
 package sorting;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 import java.util.HashMap;
+import java.util.ArrayList;
+
 
 /**
  * Your task involves creating an `aggregate` function.
@@ -65,8 +66,8 @@ public class Aggregate {
      * {
      *     {1, 5, 3},
      *     {4, 5, 2},
-     *     {6, 2, 8}
-     *     {9, 2, 2}
+     *     {6, 2, 8},
+     *     {9, 2, 2},
      *     {1, 5, 3}
      * }
      * Calling mode(array, 1, 4, 1) will analyze the second column (indexes 1 to 4).
@@ -75,7 +76,28 @@ public class Aggregate {
      * There is a tie between 2 and 5, but 2 is smaller.
      */
     public static int mode(int[][] array, int from, int to, int column) {
-         return -1;
+        int mode = -1;
+        int mode_count = 0;
+
+        HashMap<Integer,Integer> dico = new HashMap<Integer, Integer>();
+
+        for (int i = from; i <= to; i++){ //on remplit le HashMap
+            int curr = array[i][column];
+            dico.put(curr,dico.getOrDefault(curr,0)+1);
+        }
+
+        //parcourir toutes les valeurs/clés du dico avec java.util.Map
+        for (Map.Entry<Integer, Integer> entry : dico.entrySet()){
+            Integer key = entry.getKey();
+            Integer value = entry.getValue();
+            //si le nombre d'occurence est plus élevée que celle du mode actuel OU
+            //si le nombre d'occurences est égale à celle du mode actuel mais que la valeur est plus petite que celle du mode
+            if (value > mode_count || (value >= mode_count && key < mode)){
+                mode = key; //on change le mode et le nombre d'occurences du mode
+                mode_count = value;
+            }
+        }
+        return mode;
     }
 
     /**
@@ -93,7 +115,23 @@ public class Aggregate {
      * Example: See above and see unit tests.
      */
     public static int[][] aggregate(int[][] input, int column) {
-         return null;
+
+        HashMap<Integer, ArrayList<int[]>> groups = new HashMap<>(); //HashMap composé des différents groupes
+        for (int[] row : input) { //on parcoure toutes les colonnes
+            int key = row[column];
+            groups.computeIfAbsent(key, k -> new ArrayList<>()).add(row); //on ajoute à la liste la ligne correspondante dans le bon groupe
+        }
+        int[][] result = new int[groups.size()][input[0].length]; //matrice result que l'on va retourner
+        int index = 0;
+
+        for (Map.Entry<Integer, ArrayList<int[]>> entry : groups.entrySet()) { //on parcoure l'ensemble des entrées du HashMap groups
+            Integer key = entry.getKey();
+            List<int[]> rows = entry.getValue(); //valeurs du HashMap = colonnes
+            for (int col = 0; col < input[0].length; col++) {
+                result[index][col] = mode(rows.toArray(new int[0][]), 0, rows.size() - 1, col);
+            }
+            index++;
+        }
+        return result;
     }
 }
-
