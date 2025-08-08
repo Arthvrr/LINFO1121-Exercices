@@ -1,5 +1,7 @@
 package searching;
 
+import java.util.ArrayList;
+
 /**
  * You are given a binary search tree (BST) whose nodes implement the BinaryNode and KeyNode interfaces
  * available in the utils package.
@@ -34,11 +36,32 @@ public class BinarySearchTree {
      * @param value the value we want to ceil
      */
     public static Integer ceil(BSTNode<Integer> root, int value) {
-         return null;
+        //TODO
+        //retourner la valeur du noeud plus grande ou égale à value dont l'écart entre les 2 est le plus petit
+        return ceilHelper(root, value,null, Integer.MAX_VALUE);
+    }
+
+    public static Integer ceilHelper(BSTNode<Integer> root, int value, Integer tmpRes,Integer tmpDelta){
+        if (root == null){ //fin de l'arbre, on retourne la meilleure réponse trouvée
+            return tmpRes;
+        }
+        int key = root.getKey();
+        if (key == value){ //si valeur exacte trouvée, on retourne directement
+            return value;
+        } else if (key > value){ //si key plus grand on va dans le sous-arbre de gauche
+            int delta = key - value;
+            if (delta < tmpDelta){ //si valeur plus proche de value, on met à jour notre meilleure réponse trouvée
+                tmpRes = key;
+                tmpDelta = delta;
+            }
+            return ceilHelper(root.getLeft(),value,tmpRes,tmpDelta);
+        } else {  //si key plus petite on va dans le sous-arbre de droite
+            return ceilHelper(root.getRight(),value,tmpRes,tmpDelta);
+        }
     }
 
 
-    static class BSTNode<K extends Comparable<K>> {
+        static class BSTNode<K extends Comparable<K>> {
 
         private BSTNode<K> left;
         private BSTNode<K> right;
@@ -112,6 +135,4 @@ public class BinarySearchTree {
             }
         }
     }
-
 }
-
