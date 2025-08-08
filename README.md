@@ -49,3 +49,20 @@ Réponses du professeur : [Lien GitHub](https://github.com/pschaus/algorithms_ex
 - **Chapitre 2, section 3 :** Tri rapide (Quick Sort).
 - **Chapitre 2, section 5 :** Applications des algorithmes de tri.
 - **Chapitre 5, section 5.1 :** Tris de chaînes de caractères (String Sorts).
+
+---
+
+## Partie 3 – Arbres binaires de recherche et tables de symboles ordonnées
+
+### Objectifs
+
+- Décrire de manière précise et rigoureuse les concepts liés aux **arbres binaires de recherche** et aux **tables de symboles ordonnées**.
+- Implémenter des algorithmes basés sur des **arbres de recherche**.
+- Évaluer et implémenter les **représentations classiques** des arbres de recherche.
+
+### À Lire
+
+- **Chapitre 3, section 1 :** Arbres binaires de recherche (Binary Search Trees).
+- **Chapitre 3, section 2 :** Suppression dans les arbres.
+- **Chapitre 3, section 3 :** Équilibrage partiel et performances.
+- **Chapitre 5, section 2 :** Représentations symboliques (Symbol Tables).
