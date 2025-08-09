@@ -26,8 +26,16 @@ import java.util.TreeMap;
 class BirthdayMap {
     // Hint: feel free to use existing java classes from Java such as java.util.TreeMap
 
+    private TreeMap<String,ArrayList<Person>> map;
+    private TreeMap<String,ArrayList<Person>> yearMap;
+
+    private ArrayList<Person> people;
+    private ArrayList<Person> peopleYear;
+
     BirthdayMap() {
         // TODO
+        map = new TreeMap<>();
+        yearMap = new TreeMap<>(); //TreeMap composé uniquement des années d'anniversaires, et pas des dates
     }
 
     /**
@@ -39,6 +47,25 @@ class BirthdayMap {
      */
     void addPerson(Person person) {
         // TODO
+
+        //PARTIE TREEMAP DATE DE NAISSANCE
+        if (!map.containsKey(person.birthday)){ //si le TreeMap n'a pas encore la date comme clé
+            ArrayList<Person> people = new ArrayList<>(); //on crée une nouvelle liste
+            people.add(person);
+            map.put(person.birthday,people); //on ajoute au dictionnaire la paire clé-valeur : date-liste
+        } else { //si le TreeMap a déjà la date comme clé, on ajoute juste à la liste de valeurs la personne
+            map.get(person.birthday).add(person);
+        }
+
+        //PARTIE TREEMAP ANNÉE DE NAISSANCE
+        String birthYear = getYear(person.birthday); //on récupère l'année de naissance et pas la date
+        if (!yearMap.containsKey(birthYear)){ //si le TreeMap n'a pas encore l'année comme clé
+            ArrayList<Person> peopleYear = new ArrayList<>(); //on crée une nouvelle liste
+            peopleYear.add(person);
+            yearMap.put(birthYear,peopleYear); //on ajoute au dictionnaire la paire clé-valeur : année-liste
+        } else { //si le TreeMap a déjà l'année comme clé, on ajoute juste à la liste de valeurs la personne
+            yearMap.get(birthYear).add(person);
+        }
     }
 
     /**
@@ -50,9 +77,8 @@ class BirthdayMap {
      */
     List<Person> getPeopleBornOnDate(String date) {
         // TODO
-         return null;
+        return map.get(date);
     }
-
 
     /**
      * The function returns a consolidated list of Person objects
@@ -64,9 +90,15 @@ class BirthdayMap {
      */
     List<Person> getPeopleBornInYear(String year) {
         // TODO
-         return null;
+        return yearMap.get(year);
     }
 
+    /*
+    Fonction permettant de récupérer l'année d'une date d'anniversaire
+     */
+    public static String getYear(String date){
+        return date.substring(0,4);
+    }
 
     /**
      * Example usage of the BirthdayMap class, feel free to modify.
@@ -75,6 +107,9 @@ class BirthdayMap {
         Person alice = new Person("Alice", "2000-07-17");
         Person bob = new Person("Bob", "2000-08-15");
         Person charlie = new Person("Charlie", "2001-06-06");
+
+        String dateTest = "2001-06-06";
+        //System.out.println(getYear(dateTest));
 
         BirthdayMap map = new BirthdayMap();
         map.addPerson(alice);
@@ -101,4 +136,3 @@ class Person {
         return this.name;
     }
 }
-
