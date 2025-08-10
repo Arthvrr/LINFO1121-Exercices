@@ -37,4 +37,13 @@ public class WordCounter implements Iterable<String> {
     public Iterator<String> iterator() {
          return map.keySet().iterator();
     }
+
+    public Iterator<Integer> values_iterator(){
+        return map.values().iterator();
+    }
+
+    public Iterator<Map.Entry<String,Integer>> entry_iterator() {
+        return map.entrySet().iterator();
+    }
+
 }
