@@ -58,7 +58,5 @@ public class IncrementalHash {
         //  Hint3: To compute B % Q if you have x = (A + B) % Q, you should do (x + Q - A % Q) % Q
 
         return (((previousHash - t[from-1] * RM % Q + Q) % Q) * R + t[from+M-1] ) % Q; //WTF
-
-
     }
 }
