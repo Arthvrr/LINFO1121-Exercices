@@ -16,7 +16,7 @@ package sorting;
  */
 public class BinaryHeap {
 
-    private int [] content;
+    private int[] content;
     private int size;
 
     public BinaryHeap(int initialSize) {
@@ -40,6 +40,23 @@ public class BinaryHeap {
      * @param value the added value
      */
     public void push(int value) {
+        /*
+        d'abord insérer en fin de liste, puis faire remonter la valeur si plus petit que noeud parent
+        et incrémenter la size de la Heap
+         */
+
+        size++; //on incrémente de 1 la size
+        if (size() == content.length) increaseSize(); //d'abord resize si besoin
+        int startIdx = size;
+        content[startIdx] = value; //on insère au départ en fin de liste
+
+        //tant que le noeud à startIdx est plus petit que son noeud parent, on le fait remonter
+        while (content[startIdx] < content[startIdx/2]){
+            int tmp = content[startIdx];
+            content[startIdx] = content[startIdx/2];
+            content[startIdx/2] = tmp;
+            startIdx /= 2; //on divise par 2
+        }
     }
 
     /**
