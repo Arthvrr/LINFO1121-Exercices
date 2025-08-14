@@ -52,7 +52,7 @@ public class Bitset {
      */
     public int getNbWords() {
         // TODO
-         return nWords;
+        return nWords;
     }
 
 

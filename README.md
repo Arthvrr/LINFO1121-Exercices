@@ -66,3 +66,42 @@ Réponses du professeur : [Lien GitHub](https://github.com/pschaus/algorithms_ex
 - **Chapitre 3, section 2 :** Suppression dans les arbres.
 - **Chapitre 3, section 3 :** Équilibrage partiel et performances.
 - **Chapitre 5, section 2 :** Représentations symboliques (Symbol Tables).
+
+---
+
+## Partie 4 – Tables de hachage, tries et algorithme de Rabin-Karp
+
+### Objectifs
+
+- Décrire de manière précise et rigoureuse les concepts liés aux **tables de hachage** et aux **tries**.
+- Implémenter des algorithmes basés sur des **tables de hachage**.
+- Implémenter des algorithmes basés sur des **tries**.
+- Concevoir des **fonctions de hachage** appropriées pour différents types d’objets.
+- Résoudre des problèmes simples de stockage et d’accès à l’information avec des tables de hachage.
+- Évaluer et implémenter les représentations classiques des tables de hachage.
+- Décrire et implémenter l’algorithme **Rabin-Karp** pour la recherche de texte dans un corpus.
+- Décrire et implémenter des **bitsets** (non couverts dans le livre).
+
+### À Lire
+
+- **Chapitre 3.4 :** Tables de hachage.
+- **Chapitre 3.5 :** Fonctions de hachage et implémentations.
+- **Chapitre 5.2 :** Tries.
+- **Chapitre 5.3 :** Algorithme de recherche par empreinte Rabin-Karp (partie sur fingerprint search uniquement).
+
+---
+
+## Partie 5 – Union-Find, files de priorité et compression de données
+
+### Objectifs
+
+- Décrire de manière précise et rigoureuse les concepts liés aux **structures Union-Find**, aux **files de priorité**, et à la **manipulation/compression de données textuelles**.
+- Implémenter un algorithme de **compression de texte** basé sur le **codage de Huffman**.
+- Évaluer et implémenter une représentation efficace d’une **file de priorité** basée sur un **tas (heap)**.
+- Concevoir et implémenter un programme de **compression/décompression de texte**.
+
+### À Lire
+
+- **Chapitre 1.5 :** Union-Find.
+- **Chapitre 2.4 :** Heap.
+- **Chapitre 5.5 :** Compression de Huffman.
