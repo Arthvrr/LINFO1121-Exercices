@@ -105,3 +105,24 @@ Réponses du professeur : [Lien GitHub](https://github.com/pschaus/algorithms_ex
 - **Chapitre 1.5 :** Union-Find.
 - **Chapitre 2.4 :** Heap.
 - **Chapitre 5.5 :** Compression de Huffman.
+
+---
+
+## Partie 6 – Graphes
+
+### Objectifs
+
+- Décrire avec précision et rigueur les concepts liés aux **graphes**.
+- Évaluer et implémenter les **représentations classiques** des graphes.
+- Choisir une **représentation appropriée** d’un graphe selon les opérations à effectuer.
+- Implémenter des **algorithmes de parcours et de manipulation de graphes**, en particulier :
+  - parcours en **profondeur** (Depth First Search) et en **largeur** (Breadth First Search),
+  - calcul des **composantes connexes** (le calcul des composantes fortement connexes n’est pas couvert dans ce cours),
+  - **détection de cycles**,
+  - **tri topologique**,
+  - calcul des **arbres couvrants de poids minimum** (**Kruskal et Prim**),
+  - calcul des **plus courts chemins** (**Dijkstra, Bellman-Ford**).
+
+### À Lire
+
+- **Chapitres 4.1, 4.2, 4.3, 4.4** : Graphes
