@@ -1,6 +1,5 @@
 package graphs;
 
-
 /**
  * In this exercise, we revisit the GlobalWarming
  * class from the sorting package.
@@ -17,7 +16,7 @@ package graphs;
  *      | 4 | 4 | 1 | 4 | 2 |
  *      | 1 | 4 | 2 | 3 | 6 |
  *      | 1 | 1 | 1 | 6 | 3 |
- * 
+ *
  * If we replace the submerged entries
  * by _, it gives the following matrix
  *
@@ -44,15 +43,51 @@ package graphs;
  */
 public class GlobalWarming {
 
+    public static void main(String[] args) {
+        int [][] altitude = new int[][]{
+                {1, 3, 3, 1, 3},
+                {4, 2, 2, 4, 5},
+                {4, 4, 1, 4, 2},
+                {1, 4, 2, 3, 6},
+                {1, 1, 1, 6, 3}};
+
+        GlobalWarming gb = new GlobalWarming(altitude,3);
+        //System.out.println(gb.nbIslands());
+
+    }
+
+    private int waterLevel;
+    private int[][] altitude;
+    private boolean[][] marked;
+    private int[][] islandID;
+    private int nbIslands;
 
     /**
-     * Constructor. The run time of this method is expected to be in 
+     * Constructor. The run time of this method is expected to be in
      * O(n x log(n)) with n the number of entry in the altitude matrix.
      *
      * @param altitude the matrix of altitude
      * @param waterLevel the water level under which the entries are submerged
      */
     public GlobalWarming(int [][] altitude, int waterLevel) {
+        this.altitude = altitude;
+        this.waterLevel = waterLevel;
+        int rows = altitude.length;
+        int cols = altitude[0].length;
+        islandID = new int[rows][cols]; //initialisés à 0 au départ
+        marked = new boolean[rows][cols]; //initialisés à false au départ
+        int counterVal = 1;
+
+        //lancer un DFS global pour chaque point trouvé plus grand que waterLevel et qui n'a pas encore été visité
+        for (int i = 0; i < rows; i++){
+            for (int j = 0; j < cols; j++){
+                if (altitude[i][j] > waterLevel && !marked[i][j]){
+                    dfs(i,j,counterVal);
+                    counterVal++;
+                }
+            }
+        }
+        nbIslands = counterVal-1;
     }
 
     /**
@@ -61,7 +96,7 @@ public class GlobalWarming {
      * Expected time complexity O(1)
      */
     public int nbIslands() {
-         return 0;
+        return nbIslands;
     }
 
     /**
@@ -73,7 +108,29 @@ public class GlobalWarming {
      * @param p2 the second point to compare
      */
     public boolean onSameIsland(Point p1, Point p2) {
-         return false;
+        //sur la même île si même id d'île dans islandID et si != de 0 (sinon submergé)
+        return islandID[p1.getX()][p1.getY()] != 0 && islandID[p1.getX()][p1.getY()] == islandID[p2.getX()][p2.getY()];
+    }
+
+    public void dfs(int x,int y,int counterVal){
+
+        marked[x][y] = true; //on marque le noeud comme visité
+        islandID[x][y] = counterVal;
+        int[] dx = new int[]{0,0,-1,1}; //GAUCHE-DROITE-HAUT-BAS
+        int[] dy = new int[]{-1,1,0,0};
+
+        for (int i = 0; i < 4; i++){
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+
+            if (0 <= newX && newX < altitude.length && //si dans les bornes de X
+                0 <= newY && newY < altitude[0].length && //si dans les bornes de Y
+                altitude[newX][newY] > waterLevel && //si au dessus de waterLevel
+                !marked[newX][newY]){ //si pas encore visité
+
+                dfs(newX,newY, counterVal); //lancement d'un DFS chez le voisin (DFS LOCAL, pour trouver les mêmes points d'une même île)
+            }
+        }
     }
 
 
