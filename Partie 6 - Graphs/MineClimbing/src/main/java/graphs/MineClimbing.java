@@ -1,6 +1,7 @@
 package graphs;
 
-//feel free to import anything here
+import java.util.Arrays;
+import java.util.PriorityQueue;
 
 
 /**
@@ -31,6 +32,22 @@ package graphs;
  */
 public class MineClimbing {
 
+    public static class Cell implements Comparable<Cell>{
+        int x;
+        int y;
+        int cost;
+
+        Cell(int x, int y, int cost){
+            this.x = x;
+            this.y = y;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Cell other) {
+            return Integer.compare(this.cost,other.cost);
+        }
+    }
 
     /**
      * Returns the minimum distance between (startX, startY) and (endX, endY), knowing that
@@ -50,6 +67,38 @@ public class MineClimbing {
          */
         int rows = map.length;
         int cols = map[0].length;
-        return 0;
+        int[][] dist = new int[rows][cols]; //matrice qui va garder le cout minimal pour atteindre chaque cellule depuis le départ
+
+        for (int i = 0; i < rows; i++) { //on initialise tout les coûts à +INFINI au départ
+            for (int j = 0; j < cols; j++) {
+                dist[i][j] = Integer.MAX_VALUE;
+            }
+        }
+
+        PriorityQueue<Cell> pq = new PriorityQueue<>(); //PriorityQueue pour toujours traiter le point avec le coût minimal connu en premier
+        dist[startX][startY] = 0; //distance de 0 entre la source et elle-même
+        pq.add(new Cell(startX,startY,0));
+
+        int[] dx = new int[]{0,0,-1,1}; //GAUCHE-DROIT-HAUT-BAS
+        int[] dy = new int[]{-1,1,0,0};
+
+        while (!pq.isEmpty()){
+            Cell current = pq.poll();
+
+            if (current.cost > dist[current.x][current.y]) continue; //si on a déjà un meilleur chemin, on ignore
+
+            for (int i = 0; i < 4; i++){
+                int newPosX = (current.x + dx[i] + rows) % rows; //pour gérer les index circulaires
+                int newPosY = (current.y + dy[i] + cols) % cols;
+
+                int newCost = dist[current.x][current.y] + Math.abs(map[current.x][current.y] - map[newPosX][newPosY]);
+
+                if (newCost < dist[newPosX][newPosY]){
+                    dist[newPosX][newPosY] = newCost; //màj du cout (plus petit)
+                    pq.add(new Cell(newPosX,newPosY,newCost));
+                }
+            }
+        }
+        return dist[endX][endY];
     }
 }
