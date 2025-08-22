@@ -1,11 +1,8 @@
 package graphs;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-    /**
+/**
      * The class TaskScheduler allows
      * to declare a set of tasks with their dependencies.
      * You have to implement the method:
@@ -34,6 +31,17 @@ import java.util.Map;
      *  Feel free to use existing java classes.
      */
     public class TaskScheduler {
+
+        public static void main(String[] args) {
+            TaskScheduler scheduler = new TaskScheduler();
+            scheduler.addTask("A", Arrays.asList());
+            scheduler.addTask("B", Arrays.asList("A"));
+            scheduler.addTask("C", Arrays.asList("A"));
+            scheduler.addTask("D", Arrays.asList("B", "C"));
+            List<String> input = Arrays.asList("A", "B", "C", "D");
+            scheduler.isValid(input);
+        }
+
         private Map<String, List<String>> graph;
 
 
@@ -57,9 +65,40 @@ import java.util.Map;
          * @param schedule a list of tasks to be scheduled in the order they will be executed.
          */
         public boolean isValid(List<String> schedule) {
-            // TODO
-            return false;
+            //TODO
+
+            HashSet<String> hashSet = new HashSet<>(); //on vérifie qu'on aie pas de doublons dans l'input schedule
+            for (int k = 0; k < schedule.size(); k++){
+                if (hashSet.contains(schedule.get(k))) return false;
+                hashSet.add(schedule.get(k));
+            }
+
+            if (schedule.size() <= 1) return true; //si schedule de taille 0 ou 1, retourne true
+
+            if (schedule.size() != graph.size()) return false; //si pas la même taille --> il manque ou il y a un noeud en trop
+
+            HashMap<String,Integer> position = new HashMap<>(); //HashMap qui permet de stocker les index de chaque clé au sein de schedule
+            for (int i = 0; i < graph.size(); i++){
+                position.put(schedule.get(i),i);
+            }
+
+            //on compare chaque clé de graph avec chaque élément de la liste de valeur pour comparer leur index dans position
+            for (int j = 0; j < graph.size(); j++){
+                String key = schedule.get(j);
+                List<String> current = graph.get(key);
+
+                for (int k = 0; k < current.size(); k++){ //on parcoure la liste en valeurs
+                    String currentStr = current.get(k);
+
+                    //si l'élément itéré dans la liste (son "noeud parent") est à un index + élevé que la clé, erreur
+                    if (position.get(currentStr) > position.get(key)) return false;
+                }
+            }
+
+            System.out.println(schedule);
+            System.out.println(graph);
+            System.out.println(position);
+
+            return true;
         }
-
-
     }
