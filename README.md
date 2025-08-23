@@ -126,3 +126,22 @@ Réponses du professeur : [Lien GitHub](https://github.com/pschaus/algorithms_ex
 ### À Lire
 
 - **Chapitres 4.1, 4.2, 4.3, 4.4** : Graphes
+
+---
+
+## Anciens Exercices d'Examens : 
+
+- (2022) Photo
+- (2024) Training Sessions
+- (2023) BirthdayMap
+- (2022) Word Counter
+- (2018) IncrementalHash
+- (2022) LRUCache
+- (2018) MineClimbing
+- (2019) Trains
+- (2021) GalaxyPath
+- (2022) TaskScheduler
+- (2022) Wildfire
+- (2024) Aggregate
+- (2024) TernaryHeap
+- (2024) Evacuation
