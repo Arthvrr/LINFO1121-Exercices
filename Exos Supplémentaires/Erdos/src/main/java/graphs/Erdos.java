@@ -1,9 +1,6 @@
 package graphs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * The erdos number is a "collaborative distance" metric to Paul Erdos (a prolific mathematician)
@@ -28,10 +25,20 @@ import java.util.LinkedList;
  */
 public class Erdos {
 
+	public static void main(String[] args) {
+		ArrayList<String []> authors = new ArrayList<>();
+		authors.add(new String [] { "Paul Erdös", "Edsger W. Dijkstra" });
+		authors.add(new String [] { "Edsger W. Dijkstra", "Alan M. Turing" });
+		authors.add(new String [] { "Edsger W. Dijkstra", "Donald Knuth" });
+		authors.add(new String [] { "Donald Knuth", "Stephen Cook", "Judea Pearl" });
+
+		Erdos erdos1 = new Erdos(authors);
+	}
+
 	public static final String erdos = "Paul Erdös";
-
-
-
+	public HashMap<String,ArrayList<String>> map;
+	public HashMap<String,Integer> result;
+	public HashSet<String> visited;
 	/**
 	 * Constructs an Erdos object and computes the Erdős numbers for each author.
 	 *
@@ -42,6 +49,46 @@ public class Erdos {
 	 */
 	public Erdos(ArrayList<String []> articlesAuthors) {
 		// TODO
+		/*
+		Problème du plus court chemin dans un graphe non-pondéré --> BFS
+		 */
+
+		result = new HashMap<>();
+		result.put(erdos,0);
+		visited = new HashSet<>();
+
+		map = new HashMap<>(); //on crée le graphe : un HashMap contenant le nom de chaque auteur avec en valeur une liste de ses co-auteurs
+		for (String[] article : articlesAuthors){
+			for (int i = 0; i < article.length; i++){
+				for (int j = i+1; j < article.length; j++){
+					String author1 = article[i];
+					String author2 = article[j];
+
+					map.putIfAbsent(author1,new ArrayList<>());
+					map.get(author1).add(author2);
+					map.putIfAbsent(author2,new ArrayList<>());
+					map.get(author2).add(author1);
+
+				}
+			}
+		}
+
+		Queue<Person> queue = new LinkedList<>();
+		queue.add(new Person(erdos,0));
+		visited.add(erdos);
+
+		while (!queue.isEmpty()){
+			Person current = queue.poll();
+
+			ArrayList<String> list = map.get(current.name);
+
+			for (int i = 0; i < list.size(); i++){ //on ajoute à la Queue tout les voisins du noeud courant, sauf si on les a déjà visités
+				if (visited.contains(list.get(i))) continue;
+				queue.add(new Person(list.get(i), current.distance+1));
+				visited.add(list.get(i));
+				result.put(list.get(i), current.distance+1); //en BFS, le premier chemin visité est toujours le plus court, donc on save direct
+			}
+		}
 	}
 
 	/**
@@ -52,7 +99,17 @@ public class Erdos {
 	 */
 	public int findErdosNumber(String author) {
 		// TODO
-		 return -1;
+		if (!result.containsKey(author)) return -1;
+		return result.get(author);
 	}
 
+	private class Person{
+		String name;
+		int distance;
+
+		public Person(String name, int distance){
+			this.name = name;
+			this.distance = distance;
+		}
+	}
 }
