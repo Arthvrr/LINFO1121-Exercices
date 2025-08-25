@@ -1,6 +1,5 @@
 package exam;
 
-
 /**
  * Santa needs to calculate the median price of gifts he will deliver this year.
  * The gift prices are stored in a unique data structure known as the 'magical Christmas search tree'.
@@ -36,7 +35,21 @@ package exam;
 
 public class SantaInventory {
 
+    public static void main(String[] args) {
+        SantaInventory inventory = new SantaInventory();
+        inventory.put(20, 4);
+        inventory.put(1, 10);
+        inventory.put(35, 2);
+        inventory.put(40, 1);
+        inventory.put(5, 8);
+        inventory.put(1, 10);
+        inventory.median();
+
+    }
+
     private Node root; // root of BST
+    public int size; //nombre de noeuds
+    public int totalToys; //nombre total de jouets
 
     private class Node {
         private int toyPrice; // Price of the toy
@@ -57,6 +70,42 @@ public class SantaInventory {
      *                 this count is added to the existing count.
      */
     public void put(int toyPrice, int count) {
+        if (root == null){ //si arbre vide au départ
+            root = new Node();
+            root.toyPrice = toyPrice;
+            root.count = count;
+            size++;
+            totalToys += count;
+        } else put(root,toyPrice,count);
+
+    }
+
+    public void put(Node node, int toyPrice, int count){
+
+        if (node.toyPrice == toyPrice){
+            totalToys += count;
+            node.count += count; //si même prix, on met à jour le nombre de jouets ayant ce prix-là
+        }
+
+        else if (toyPrice < node.toyPrice){ //si prix plus bas, on va à gauche dans le tree
+
+            if (node.left == null){ //si noeud gauche null, on insère ici
+                node.left = new Node();
+                node.left.toyPrice = toyPrice;
+                node.left.count = count;
+                size++;
+                totalToys += count;
+            } else put(node.left,toyPrice,count); //sinon on continue de descendre dans le tree
+
+        } else { //si prix plus haut, on va à droite dans le tree
+            if (node.right == null){ //si noeud droit null, on insère ici
+                node.right = new Node();
+                node.right.toyPrice = toyPrice;
+                node.right.count = count;
+                size++;
+                totalToys += count;
+            } else put(node.right,toyPrice,count); //sinon on continue de descendre dans le tree
+        }
     }
 
     /**
@@ -71,7 +120,18 @@ public class SantaInventory {
      * @throws IllegalArgumentException if the tree is empty.
      */
     public int median() {
-		 return -1;
+        if (root == null) throw new IllegalArgumentException();
+        return inOrder(root, new int[1]); //tableau de taille 1 pour stocker l'entier counter
     }
 
+    public int inOrder(Node node, int[] counter){
+        if (node == null) return -1;
+        int leftResult = inOrder(node.left, counter); //on parcoure d'abord le sous-arbre gauche
+        if (leftResult != -1) return leftResult; //si médiane trouvée dans la branche gauche, on retourne
+
+        counter[0] += node.count;
+        if (counter[0] >= (totalToys/2)+1) return node.toyPrice;
+
+        return inOrder(node.right,counter); //si médiane toujours pas trouvée on va voir dans le sous-arbre de droite
+    }
 }
